@@ -18,7 +18,7 @@ extension TerminalExceptionApi {
 }
 
 extension NSError {
-    func toPlatformError(apiError: Error? = nil, paymentIntent: PaymentIntent? = nil) -> PigeonError {
+    func toPlatformError(apiError: Error? = nil, apiErrorCode: String? = nil, paymentIntent: PaymentIntent? = nil) -> PigeonError {
         if (self.domain != "com.stripe-terminal") {
             return PigeonError(
                 code: "\(self.domain):\(self.code)",
@@ -26,18 +26,19 @@ extension NSError {
                 details: "\(self)"
             )
         }
-        let apiException = toApi(apiError: apiError, paymentIntent: paymentIntent)
+        let apiException = toApi(apiError: apiError, apiErrorCode: apiErrorCode, paymentIntent: paymentIntent)
         return apiException.toPlatformError()
     }
     
-    func toApi(apiError: Error? = nil, paymentIntent: PaymentIntent? = nil) -> TerminalExceptionApi {
+    func toApi(apiError: Error? = nil, apiErrorCode: String? = nil, paymentIntent: PaymentIntent? = nil) -> TerminalExceptionApi {
         let code = self.toApiCode();
+        let apiErrorDescription = [apiErrorCode.map { "code=\($0)" }, apiError?.localizedDescription].compactMap { $0 }.joined(separator: " ")
         return TerminalExceptionApi(
             code: code ?? TerminalExceptionCodeApi.unknown,
             message: localizedDescription,
             stackTrace: nil,
             paymentIntent: paymentIntent?.toApi(),
-            apiError: apiError?.localizedDescription
+            apiError: apiErrorDescription.isEmpty ? nil : apiErrorDescription
         )
     }
     
@@ -318,8 +319,10 @@ extension NSError {
             return .collectInputsApplicationError
         case .tapToPayInternalNetworkError:
             return .internalNetworkError
+        case .printerLowBattery:
+            return .unknown
         @unknown default:
-            fatalError()
+            return .unknown
         }
     }
 }

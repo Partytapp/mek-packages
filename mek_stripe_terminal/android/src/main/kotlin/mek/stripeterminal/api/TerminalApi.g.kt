@@ -962,7 +962,9 @@ enum class DeviceTypeApi(val raw: Int) {
   /** Verifone VP110 */
   VERIFONE_VP110(31),
   /** Verifone VL110 */
-  VERIFONE_VL110(32);
+  VERIFONE_VL110(32),
+  /** A reader type not recognized by this integration. */
+  UNKNOWN(33);
 
   companion object {
     fun ofRaw(raw: Int): DeviceTypeApi? {

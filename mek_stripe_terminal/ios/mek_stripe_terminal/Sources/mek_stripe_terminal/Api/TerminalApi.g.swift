@@ -771,6 +771,8 @@ enum DeviceTypeApi: Int, CaseIterable {
   case verifoneVp110 = 31
   /// Verifone VL110
   case verifoneVl110 = 32
+  /// A reader type not recognized by this integration.
+  case unknown = 33
 }
 
 enum ReaderEventApi: Int, CaseIterable {

@@ -248,7 +248,13 @@ public class TerminalPlugin: NSObject, FlutterPlugin, TerminalPlatformApi {
                 completion: { paymentIntent, error in
                 self._processPaymentIntentCancellables.removeValue(forKey: operationId)
                 if let error = error as? NSError {
-                    completion(.failure(error.toPlatformError()))
+                    let confirmError = error as? ConfirmPaymentIntentError
+                    let updatedPaymentIntent = confirmError?.paymentIntent ?? (error.userInfo[ErrorKey.stripeAPIPaymentIntent.rawValue] as? PaymentIntent) ?? paymentIntent
+                    let declineCode = confirmError?.declineCode ?? (error.userInfo[ErrorKey.stripeAPIDeclineCode.rawValue] as? String)
+                    if let updatedPaymentIntent = updatedPaymentIntent, let stripeId = updatedPaymentIntent.stripeId {
+                        self._paymentIntents[stripeId] = updatedPaymentIntent
+                    }
+                    completion(.failure(error.toPlatformError(apiError: confirmError?.requestError, apiErrorCode: declineCode, paymentIntent: updatedPaymentIntent)))
                     return
                 }
                 self._paymentIntents[paymentIntent!.stripeId!] = paymentIntent!

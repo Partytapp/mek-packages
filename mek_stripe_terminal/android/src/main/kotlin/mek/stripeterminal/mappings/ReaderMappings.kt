@@ -103,7 +103,7 @@ fun DeviceType.toApi(): DeviceTypeApi? {
         DeviceType.VERIFONE_VM110 -> DeviceTypeApi.VERIFONE_VM110
         DeviceType.VERIFONE_VP110 -> DeviceTypeApi.VERIFONE_VP110
         DeviceType.VERIFONE_VL110 -> DeviceTypeApi.VERIFONE_VL110
-        DeviceType.UNKNOWN -> null
+        DeviceType.UNKNOWN -> DeviceTypeApi.UNKNOWN
     }
 }
 
@@ -287,6 +287,7 @@ fun DeviceTypeApi.toHost(): DeviceType? {
         DeviceTypeApi.VERIFONE_VP110 -> DeviceType.VERIFONE_VP110
         DeviceTypeApi.VERIFONE_VL110 -> DeviceType.VERIFONE_VL110
         DeviceTypeApi.VERIFONE_P400 -> null
+        DeviceTypeApi.UNKNOWN -> null
     }
 }
 

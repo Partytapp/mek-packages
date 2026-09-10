@@ -142,8 +142,10 @@ extension DeviceType {
             return .stripeT610
         case .stripeT610DevKit:
             return .stripeT610Devkit
+        case .unknown:
+            return .unknown
         @unknown default:
-            fatalError("DeviceType->DeviceTypeApi \(self) not supported.")
+            return .unknown
         }
     }
 }
@@ -398,6 +400,8 @@ extension DeviceTypeApi {
             return .verifoneVP110
         case .verifoneVl110:
             return .verifoneVL110
+        case .unknown:
+            return nil
         }
     }
 }

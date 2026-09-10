@@ -877,6 +877,9 @@ enum DeviceTypeApi {
 
   /// Verifone VL110
   verifoneVl110,
+
+  /// A reader type not recognized by this integration.
+  unknown,
 }
 
 enum ReaderEventApi { cardInserted, cardRemoved }
