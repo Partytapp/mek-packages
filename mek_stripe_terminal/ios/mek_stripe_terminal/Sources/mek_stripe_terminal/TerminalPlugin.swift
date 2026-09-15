@@ -6,7 +6,7 @@ public class TerminalPlugin: NSObject, FlutterPlugin, TerminalPlatformApi {
     private static var shared: TerminalPlugin?
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let plugin = TerminalPlugin(registrar.viewController, registrar.messenger())
+        let plugin = TerminalPlugin({ registrar.viewController }, registrar.messenger())
         plugin.setUpAndRegister()
         TerminalPlugin.shared = plugin;
     }
@@ -17,7 +17,7 @@ public class TerminalPlugin: NSObject, FlutterPlugin, TerminalPlatformApi {
     private let _terminalDelegate: TerminalDelegatePlugin
     private let _discoveryDelegate: DiscoveryDelegatePlugin
 
-    init(_ viewController: UIViewController?, _ binaryMessenger: FlutterBinaryMessenger) {
+    init(_ viewController: @escaping () -> UIViewController?, _ binaryMessenger: FlutterBinaryMessenger) {
         self._binaryMessenger = binaryMessenger
         self._proximityReader = ProximityReaderPlugin(viewController)
         self._handlers = TerminalHandlersApi(binaryMessenger: binaryMessenger)
