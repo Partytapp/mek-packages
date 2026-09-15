@@ -14,6 +14,8 @@ func handleResult<R>(_ completion: @escaping (Result<R, any Error>) -> Void, cal
         do {
             let result = try await callback();
             completion(.success(result))
+        } catch let error as PigeonError {
+            completion(.failure(error))
         } catch let error as NSError {
             completion(.failure(error.toPlatformError()))
         }
