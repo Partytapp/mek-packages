@@ -13,8 +13,8 @@ more simply by supporting streams instead of callbacks for listeners
 
 All features of android and ios sdk are supported (Also the TapToPay feature)
 
-- [Android sdk](https://github.com/stripe/stripe-terminal-android) version: 4.6.0
-- [IOS sdk](https://github.com/stripe/stripe-terminal-ios) version: 4.6.0
+- [Android sdk](https://github.com/stripe/stripe-terminal-android) version: 5.8.2
+- [IOS sdk](https://github.com/stripe/stripe-terminal-ios) minimum version: 5.8.1
 
 > Offline mode is not supported
 
